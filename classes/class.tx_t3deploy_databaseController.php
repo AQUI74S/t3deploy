@@ -28,7 +28,7 @@ class tx_t3deploy_databaseController {
 	const RemoveTypes_list = 'drop,drop_table,clear_table';
 
 	/**
-	 * @var t3lib_install|t3lib_install_Sql
+	 * @var \TYPO3\CMS\Install\Service\SqlSchemaMigrationService|\TYPO3\CMS\Install\Service\SqlSchemaMigrationService
 	 */
 	protected $install;
 
@@ -47,10 +47,10 @@ class tx_t3deploy_databaseController {
 	 */
 	public function __construct() {
 
-		if ( method_exists('t3lib_div', 'int_from_ver') && t3lib_div::int_from_ver(TYPO3_version) < 4007001) {
-			$this->install = t3lib_div::makeInstance('t3lib_install');
+		if ( method_exists('t3lib_div', 'int_from_ver') && TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 4007001) {
+			$this->install = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_install');
 		} else {
-			$this->install = t3lib_div::makeInstance('t3lib_install_Sql');
+			$this->install = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_install_Sql');
 		}
 
 		$this->setLoadedExtensions($GLOBALS['TYPO3_LOADED_EXT']);
@@ -132,7 +132,7 @@ class tx_t3deploy_databaseController {
 
 		if ($isRemovalEnabled) {
 				// Disable the delete prefix, thus tables and fields can be removed directly:
-			if ( method_exists('t3lib_div', 'int_from_ver') && t3lib_div::int_from_ver(TYPO3_version) < 4007001) {
+			if ( method_exists('t3lib_div', 'int_from_ver') && TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 4007001) {
 				$this->install->deletedPrefixKey = '';
 			} else {
 				$this->install->setDeletedPrefixKey('');
@@ -307,7 +307,7 @@ class tx_t3deploy_databaseController {
 	 * @return array
 	 */
 	protected function getUpdateTypes() {
-		return t3lib_div::trimExplode(',', self::UpdateTypes_List, TRUE);
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', self::UpdateTypes_List, TRUE);
 	}
 
 	/**
@@ -316,6 +316,6 @@ class tx_t3deploy_databaseController {
 	 * @return array
 	 */
 	protected function getRemoveTypes() {
-		return t3lib_div::trimExplode(',', self::RemoveTypes_list, TRUE);
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', self::RemoveTypes_list, TRUE);
 	}
 }
