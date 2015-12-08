@@ -14,7 +14,7 @@
     },
     "extra": {
         "installer-paths": {
-            "res/extensions/{$name}": ["vendor/package"]
+            "res/extensions": ["t3deploy"]
         }
     }
 }
