@@ -1,7 +1,4 @@
 {
-    "config": {
-        "vendor-dir": "res/extensions"
-    },
     "name": "aoe/t3deploy",
     "description": "t3deploy TYPO3 dispatcher",
     "type": "typo3-cms-extension",
@@ -13,7 +10,12 @@
         }
     ],
     "require": {
-        "typo3/cms": "*"
+        "typo3/cms": "~6.2"
+    },
+    "extra": {
+        "installer-paths": {
+            "res/extensions/{$name}": ["vendor/package"]
+        }
     }
 }
 
