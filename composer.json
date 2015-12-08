@@ -4,12 +4,16 @@
     },
     "name": "aoe/t3deploy",
     "description": "t3deploy TYPO3 dispatcher",
+    "type": "typo3-cms-extension",
     "license": "proprietary",
     "authors": [
         {
             "name": "AOE GmbH",
             "email": "dev@aoe.com"
         }
-    ]
+    ],
+    "require": {
+        "typo3/cms": "*"
+    }
 }
 
