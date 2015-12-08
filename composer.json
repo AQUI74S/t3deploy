@@ -1,0 +1,15 @@
+{
+    "config": {
+        "vendor-dir": "res/extensions"
+    },
+    "name": "aoe/t3deploy",
+    "description": "t3deploy TYPO3 dispatcher",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "AOE GmbH",
+            "email": "dev@aoe.com"
+        }
+    ]
+}
+

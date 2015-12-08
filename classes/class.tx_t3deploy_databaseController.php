@@ -15,6 +15,7 @@
  * @author Oliver Hader <oliver.hader@aoemedia.de>
  *
  */
+
 class tx_t3deploy_databaseController {
 	/*
 	 * List of all possible update types:
@@ -26,7 +27,7 @@ class tx_t3deploy_databaseController {
 	const RemoveTypes_list = 'drop,drop_table,clear_table';
 
 	/**
-	 * @var \TYPO3\CMS\Install\Service\SqlSchemaMigrationService|\TYPO3\CMS\Install\Service\SqlSchemaMigrationService
+	 * @var \TYPO3\CMS\Install\Service\SqlSchemaMigrationService
 	 */
 	protected $install;
 
@@ -45,11 +46,7 @@ class tx_t3deploy_databaseController {
 	 */
 	public function __construct() {
 
-		if ( method_exists('t3lib_div', 'int_from_ver') && TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 4007001) {
-			$this->install = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_install');
-		} else {
-			$this->install = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_install_Sql');
-		}
+		$this->install = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Install\Service\SqlSchemaMigrationService');
 
 		$this->setLoadedExtensions($GLOBALS['TYPO3_LOADED_EXT']);
 		$this->setConsideredTypes($this->getUpdateTypes());
@@ -116,7 +113,7 @@ class tx_t3deploy_databaseController {
 	 * @param boolean $allowKeyModifications Whether to allow key modifications
 	 * @return string
 	 */
-	protected function executeUpdateStructure(array $arguments, $allowKeyModifications = FALSE) {
+	protected function executeUpdateStructure(array $arguments, $isRemovalEnabled, $allowKeyModifications = FALSE) {
 		$result = '';
 
 		$isExcuteEnabled = (isset($arguments['--execute']) || isset($arguments['-e']));
@@ -130,11 +127,7 @@ class tx_t3deploy_databaseController {
 
 		if ($isRemovalEnabled) {
 				// Disable the delete prefix, thus tables and fields can be removed directly:
-			if ( method_exists('t3lib_div', 'int_from_ver') && TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 4007001) {
-				$this->install->deletedPrefixKey = '';
-			} else {
-				$this->install->setDeletedPrefixKey('');
-			}
+			$this->install->setDeletedPrefixKey('');
 				// Add types considered for removal:
 			$this->addConsideredTypes($this->getRemoveTypes());
 				// Merge update suggestions:
@@ -219,7 +212,7 @@ class tx_t3deploy_databaseController {
 	protected function getStructureDifferencesForUpdate($database, $allowKeyModifications = FALSE) {
 		$differences = $this->install->getDatabaseExtra(
 			$this->getDefinedFieldDefinitions(),
-			$this->install->getFieldDefinitions_database($database)
+			$this->install->getFieldDefinitions_database()
 		);
 
 		if (!$allowKeyModifications) {
@@ -243,7 +236,7 @@ class tx_t3deploy_databaseController {
 	 */
 	protected function getStructureDifferencesForRemoval($database, $allowKeyModifications = FALSE) {
 		$differences = $this->install->getDatabaseExtra(
-			$this->install->getFieldDefinitions_database($database),
+			$this->install->getFieldDefinitions_database(),
 			$this->getDefinedFieldDefinitions()
 		);
 
@@ -264,7 +257,7 @@ class tx_t3deploy_databaseController {
 		$cacheTables = '';
 
 		if (class_exists('t3lib_cache') && method_exists(t3lib_cache, 'getDatabaseTableDefinitions')) {
-			$cacheTables = t3lib_cache::getDatabaseTableDefinitions();
+			$cacheTables = \TYPO3\CMS\Core\Cache\Cache::getDatabaseTableDefinitions();
 		}
 
 		if (method_exists($this->install, 'getFieldDefinitions_fileContent')) {
