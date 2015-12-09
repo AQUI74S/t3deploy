@@ -1,5 +1,5 @@
 {
-    "name": "aoe/t3deploy",
+    "name": "aoe/t3deploy-ext",
     "description": "t3deploy TYPO3 dispatcher",
     "type": "typo3-cms-extension",
     "license": "proprietary",
