@@ -12,7 +12,7 @@
             "email": "dev@aoe.com"
         }
     ],
-    "require": {
+    "require-dev": {
         "typo3/cms": "~6.2"
     }
 }
