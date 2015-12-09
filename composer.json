@@ -5,7 +5,7 @@
     "license": "proprietary",
     "config": {
         "vendor-dir": "res/extension"
-    }
+    },
     "authors": [
         {
             "name": "AOE GmbH",
