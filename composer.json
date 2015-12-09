@@ -11,6 +11,11 @@
     ],
     "require": {
         "typo3/cms": "~6.2"
+    },
+    "extra": {
+        "installer-paths": {
+            "res/extensions": ["t3deploy"]
+        }
     }
 }
 
