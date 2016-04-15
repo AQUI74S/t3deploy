@@ -8,8 +8,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-t3lib_div::requireOnce(PATH_t3lib . 'class.t3lib_install.php');
-
 /**
  * Controller that handles database actions of the t3deploy process inside TYPO3.
  *
@@ -28,7 +26,7 @@ class tx_t3deploy_databaseController {
 	const RemoveTypes_list = 'drop,drop_table,clear_table';
 
 	/**
-	 * @var t3lib_install|t3lib_install_Sql
+	 * @var @var \TYPO3\CMS\Install\Service\SqlSchemaMigrationService|\TYPO3\CMS\Install\Service\SqlSchemaMigrationService
 	 */
 	protected $install;
 
@@ -51,6 +49,7 @@ class tx_t3deploy_databaseController {
 			$this->install = t3lib_div::makeInstance('t3lib_install');
 		} else {
 			$this->install = t3lib_div::makeInstance('t3lib_install_Sql');
+			$this->install = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_install_Sql');
 		}
 
 		$this->setLoadedExtensions($GLOBALS['TYPO3_LOADED_EXT']);
@@ -307,7 +306,7 @@ class tx_t3deploy_databaseController {
 	 * @return array
 	 */
 	protected function getUpdateTypes() {
-		return t3lib_div::trimExplode(',', self::UpdateTypes_List, TRUE);
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', self::UpdateTypes_List, TRUE);
 	}
 
 	/**
@@ -316,6 +315,6 @@ class tx_t3deploy_databaseController {
 	 * @return array
 	 */
 	protected function getRemoveTypes() {
-		return t3lib_div::trimExplode(',', self::RemoveTypes_list, TRUE);
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', self::RemoveTypes_list, TRUE);
 	}
 }
