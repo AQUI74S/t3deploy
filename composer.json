@@ -1,7 +1,7 @@
 {
   "name": "aoe/t3deploy-ext",
   "description": "t3deploy TYPO3 dispatcher",
-  "type": "library",
+  "type": "typo3-cms-extension",
   "license": "proprietary",
   "authors": [
     {
