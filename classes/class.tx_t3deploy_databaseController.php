@@ -48,8 +48,7 @@ class tx_t3deploy_databaseController {
 		if ( method_exists('t3lib_div', 'int_from_ver') && t3lib_div::int_from_ver(TYPO3_version) < 4007001) {
 			$this->install = t3lib_div::makeInstance('t3lib_install');
 		} else {
-			$this->install = t3lib_div::makeInstance('t3lib_install_Sql');
-			$this->install = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_install_Sql');
+			$this->install = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Install\\Service\\SqlSchemaMigrationService');
 		}
 
 		$this->setLoadedExtensions($GLOBALS['TYPO3_LOADED_EXT']);
